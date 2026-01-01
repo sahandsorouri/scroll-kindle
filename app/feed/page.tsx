@@ -267,40 +267,40 @@ function FeedContent() {
 
   return (
     <div ref={containerRef} className="relative h-screen overflow-hidden bg-white dark:bg-black">
-      {/* Top bar */}
-      <div className="absolute left-0 right-0 top-0 z-10 flex items-center justify-between bg-gradient-to-b from-black/50 to-transparent p-4 text-white">
-        <Link href="/" className="text-sm hover:underline">
+      {/* Top bar - mobile optimized */}
+      <div className="absolute left-0 right-0 top-0 z-10 flex items-center justify-between bg-gradient-to-b from-black/70 to-transparent p-2 text-white md:p-4">
+        <Link href="/" className="text-xs hover:underline md:text-sm">
           ← Home
         </Link>
-        <div className="flex gap-2">
+        <div className="flex gap-1 md:gap-2">
           <button
             onClick={() => setShowFilters(true)}
-            className="rounded px-3 py-1 text-sm transition-colors hover:bg-white/20"
+            className="rounded px-2 py-1 text-xs transition-colors hover:bg-white/20 active:bg-white/30 md:px-3 md:text-sm"
             aria-label="Filters"
           >
-            Filters
+            🔍
           </button>
           <button
             onClick={() => setShowSettings(true)}
-            className="rounded px-3 py-1 text-sm transition-colors hover:bg-white/20"
+            className="rounded px-2 py-1 text-xs transition-colors hover:bg-white/20 active:bg-white/30 md:px-3 md:text-sm"
             aria-label="Settings"
           >
-            Settings
+            ⚙️
           </button>
         </div>
       </div>
 
       {/* Main highlight card */}
-      <div className="flex h-full flex-col items-center justify-center p-6 md:p-12">
+      <div className="flex h-full flex-col items-center justify-center overflow-y-auto p-4 md:p-12">
         <div className="w-full max-w-3xl">
           {/* Clear badge indicating source */}
-          <div className="mb-4 flex justify-center">
+          <div className="mb-3 flex justify-center md:mb-4">
             {isSampleHighlight(currentHighlight) ? (
-              <span className="rounded-full bg-blue-500 px-4 py-2 text-xs font-bold text-white">
-                📚 SAMPLE QUOTE (Not your highlight)
+              <span className="rounded-full bg-blue-500 px-3 py-1.5 text-xs font-bold text-white md:px-4 md:py-2">
+                📚 SAMPLE QUOTE
               </span>
             ) : (
-              <span className="rounded-full bg-green-500 px-4 py-2 text-xs font-bold text-white">
+              <span className="rounded-full bg-green-500 px-3 py-1.5 text-xs font-bold text-white md:px-4 md:py-2">
                 ✨ YOUR HIGHLIGHT
               </span>
             )}
@@ -311,22 +311,22 @@ function FeedContent() {
             <img
               src={currentBook.cover_image_url}
               alt={currentBook.title}
-              className="mx-auto mb-6 h-32 w-auto rounded object-contain"
+              className="mx-auto mb-4 h-24 w-auto rounded object-contain md:mb-6 md:h-32"
             />
           )}
 
-          <blockquote className="mb-8 text-2xl font-light leading-relaxed md:text-4xl">
+          <blockquote className="mb-6 max-h-[60vh] overflow-y-auto break-words text-lg font-light leading-relaxed md:mb-8 md:text-2xl lg:text-4xl">
             &ldquo;{currentHighlight.text}&rdquo;
           </blockquote>
 
           {currentHighlight.note && (
-            <div className={`mb-6 rounded-lg p-4 text-sm ${isSampleHighlight(currentHighlight) ? 'bg-blue-100 dark:bg-blue-900/30' : 'bg-yellow-100 dark:bg-yellow-900/30'}`}>
+            <div className={`mb-4 max-h-[30vh] overflow-y-auto rounded-lg p-3 text-xs md:mb-6 md:p-4 md:text-sm ${isSampleHighlight(currentHighlight) ? 'bg-blue-100 dark:bg-blue-900/30' : 'bg-yellow-100 dark:bg-yellow-900/30'}`}>
               <p className="font-semibold">{isSampleHighlight(currentHighlight) ? '📚 Sample Quote Info:' : '📝 Your Note:'}</p>
-              <p>{currentHighlight.note}</p>
+              <p className="mt-1">{currentHighlight.note}</p>
             </div>
           )}
 
-          <div className="flex flex-wrap items-center gap-4 text-sm text-gray-600 dark:text-gray-400">
+          <div className="flex flex-wrap items-center gap-2 text-xs text-gray-600 dark:text-gray-400 md:gap-4 md:text-sm">
             <p className="font-semibold">
               {isSampleHighlight(currentHighlight) 
                 ? currentHighlight.note?.match(/from "(.*?)" by (.*?)\./)?.[1] || 'Sample Quote'
@@ -334,11 +334,11 @@ function FeedContent() {
               {!isSampleHighlight(currentHighlight) && currentBook?.author && ` by ${currentBook.author}`}
             </p>
             {currentHighlight.tags.length > 0 && (
-              <div className="flex flex-wrap gap-2">
+              <div className="flex flex-wrap gap-1 md:gap-2">
                 {currentHighlight.tags.map((tag) => (
                   <span
                     key={tag}
-                    className="rounded-full bg-gray-200 px-2 py-1 text-xs dark:bg-gray-800"
+                    className="rounded-full bg-gray-200 px-2 py-0.5 text-xs dark:bg-gray-800"
                   >
                     {tag}
                   </span>
@@ -349,62 +349,64 @@ function FeedContent() {
         </div>
       </div>
 
-      {/* Bottom action bar */}
-      <div className="absolute bottom-0 left-0 right-0 z-10 flex items-center justify-between bg-gradient-to-t from-black/50 to-transparent p-4 text-white">
-        <div className="flex gap-2">
-          {!isSampleHighlight(currentHighlight) && (
+      {/* Bottom action bar - mobile optimized */}
+      <div className="absolute bottom-0 left-0 right-0 z-10 bg-gradient-to-t from-black/70 to-transparent p-2 text-white md:p-4">
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <div className="flex flex-wrap gap-1 md:gap-2">
+            {!isSampleHighlight(currentHighlight) && (
+              <button
+                onClick={handleToggleFavorite}
+                className="rounded px-2 py-1.5 text-lg transition-colors hover:bg-white/20 active:bg-white/30 md:px-3 md:py-2"
+                aria-label="Toggle favorite"
+              >
+                {currentHighlight?.is_favorite ? '★' : '☆'}
+              </button>
+            )}
             <button
-              onClick={handleToggleFavorite}
-              className="rounded px-3 py-2 transition-colors hover:bg-white/20"
-              aria-label="Toggle favorite"
+              onClick={handleCopyText}
+              className="rounded px-2 py-1.5 text-xs transition-colors hover:bg-white/20 active:bg-white/30 md:px-3 md:py-2 md:text-sm"
             >
-              {currentHighlight?.is_favorite ? '★' : '☆'}
+              Copy
             </button>
-          )}
-          <button
-            onClick={handleCopyText}
-            className="rounded px-3 py-2 text-sm transition-colors hover:bg-white/20"
-          >
-            Copy
-          </button>
-          <button
-            onClick={handleCopyFormatted}
-            className="rounded px-3 py-2 text-sm transition-colors hover:bg-white/20"
-          >
-            Copy Quote
-          </button>
-          {(currentHighlight?.readwise_url || currentBook?.readwise_url) && (
             <button
-              onClick={handleOpenInReadwise}
-              className="rounded px-3 py-2 text-sm transition-colors hover:bg-white/20"
+              onClick={handleCopyFormatted}
+              className="hidden rounded px-2 py-1.5 text-xs transition-colors hover:bg-white/20 active:bg-white/30 md:inline-block md:px-3 md:py-2 md:text-sm"
             >
-              Open in Readwise
+              Copy Quote
             </button>
-          )}
-        </div>
+            {(currentHighlight?.readwise_url || currentBook?.readwise_url) && (
+              <button
+                onClick={handleOpenInReadwise}
+                className="hidden rounded px-2 py-1.5 text-xs transition-colors hover:bg-white/20 active:bg-white/30 md:inline-block md:px-3 md:py-2 md:text-sm"
+              >
+                Open in Readwise
+              </button>
+            )}
+          </div>
 
-        <p className="text-sm">
-          {currentIndex + 1} / {filteredHighlights.length}
-        </p>
+          <p className="text-xs font-medium md:text-sm">
+            {currentIndex + 1} / {filteredHighlights.length}
+          </p>
+        </div>
       </div>
 
-      {/* Settings Modal */}
+      {/* Settings Modal - mobile optimized */}
       {showSettings && (
-        <div className="absolute inset-0 z-20 flex items-center justify-center bg-black/80">
-          <div className="w-full max-w-md rounded-lg bg-white p-6 dark:bg-gray-900">
-            <h2 className="mb-4 text-2xl font-bold">Settings</h2>
+        <div className="absolute inset-0 z-20 flex items-end justify-center bg-black/80 md:items-center">
+          <div className="w-full max-w-md rounded-t-lg bg-white p-4 dark:bg-gray-900 md:rounded-lg md:p-6">
+            <h2 className="mb-3 text-xl font-bold md:mb-4 md:text-2xl">Settings</h2>
 
-            <div className="space-y-4">
+            <div className="space-y-3 md:space-y-4">
               <button
                 onClick={handleForgetToken}
-                className="w-full rounded-lg bg-red-600 px-4 py-2 text-white hover:bg-red-700"
+                className="w-full rounded-lg bg-red-600 px-4 py-2.5 text-sm font-medium text-white hover:bg-red-700 active:bg-red-800 md:text-base"
               >
                 Forget Token & Clear Data
               </button>
 
               <Link
                 href="/books"
-                className="block w-full rounded-lg border-2 border-gray-800 px-4 py-2 text-center hover:bg-gray-800 hover:text-white dark:border-gray-100 dark:hover:bg-gray-100 dark:hover:text-gray-900"
+                className="block w-full rounded-lg border-2 border-gray-800 px-4 py-2.5 text-center text-sm font-medium hover:bg-gray-800 hover:text-white active:bg-gray-700 dark:border-gray-100 dark:hover:bg-gray-100 dark:hover:text-gray-900 md:text-base"
               >
                 View All Books
               </Link>
@@ -412,7 +414,7 @@ function FeedContent() {
               {!isDemo && (
                 <button
                   onClick={() => router.push('/connect')}
-                  className="w-full rounded-lg border-2 border-gray-800 px-4 py-2 hover:bg-gray-800 hover:text-white dark:border-gray-100 dark:hover:bg-gray-100 dark:hover:text-gray-900"
+                  className="w-full rounded-lg border-2 border-gray-800 px-4 py-2.5 text-sm font-medium hover:bg-gray-800 hover:text-white active:bg-gray-700 dark:border-gray-100 dark:hover:bg-gray-100 dark:hover:text-gray-900 md:text-base"
                 >
                   Re-import Highlights
                 </button>
@@ -421,7 +423,7 @@ function FeedContent() {
 
             <button
               onClick={() => setShowSettings(false)}
-              className="mt-6 w-full rounded-lg bg-gray-200 px-4 py-2 hover:bg-gray-300 dark:bg-gray-800 dark:hover:bg-gray-700"
+              className="mt-4 w-full rounded-lg bg-gray-200 px-4 py-2.5 text-sm font-medium hover:bg-gray-300 active:bg-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700 md:mt-6 md:text-base"
             >
               Close
             </button>
@@ -429,26 +431,26 @@ function FeedContent() {
         </div>
       )}
 
-      {/* Filters Modal */}
+      {/* Filters Modal - mobile optimized */}
       {showFilters && (
-        <div className="absolute inset-0 z-20 flex items-center justify-center bg-black/80">
-          <div className="w-full max-w-md rounded-lg bg-white p-6 dark:bg-gray-900">
-            <h2 className="mb-4 text-2xl font-bold">Filters</h2>
+        <div className="absolute inset-0 z-20 flex items-end justify-center bg-black/80 md:items-center">
+          <div className="max-h-[90vh] w-full max-w-md overflow-y-auto rounded-t-lg bg-white p-4 dark:bg-gray-900 md:rounded-lg md:p-6">
+            <h2 className="mb-3 text-xl font-bold md:mb-4 md:text-2xl">Filters</h2>
 
-            <div className="space-y-4">
+            <div className="space-y-3 md:space-y-4">
               <div>
-                <label className="mb-2 block text-sm font-medium">Search</label>
+                <label className="mb-1.5 block text-xs font-medium md:mb-2 md:text-sm">Search</label>
                 <input
                   type="text"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Search highlights..."
-                  className="w-full rounded-lg border border-gray-300 px-4 py-2 dark:border-gray-600 dark:bg-gray-800"
+                  className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm dark:border-gray-600 dark:bg-gray-800 md:px-4 md:text-base"
                 />
               </div>
 
               <div>
-                <label className="mb-2 block text-sm font-medium">Filter by Book</label>
+                <label className="mb-1.5 block text-xs font-medium md:mb-2 md:text-sm">Filter by Book</label>
                 <select
                   value={filters.bookId || ''}
                   onChange={(e) =>
@@ -457,7 +459,7 @@ function FeedContent() {
                       bookId: e.target.value ? parseInt(e.target.value, 10) : undefined,
                     })
                   }
-                  className="w-full rounded-lg border border-gray-300 px-4 py-2 dark:border-gray-600 dark:bg-gray-800"
+                  className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm dark:border-gray-600 dark:bg-gray-800 md:px-4 md:text-base"
                 >
                   <option value="">All Books</option>
                   {books.map((book) => (
@@ -475,9 +477,9 @@ function FeedContent() {
                   onChange={(e) =>
                     setFilters({ ...filters, showFavoritesOnly: e.target.checked })
                   }
-                  className="mr-2"
+                  className="mr-2 h-4 w-4"
                 />
-                <span className="text-sm">Show favorites only</span>
+                <span className="text-xs md:text-sm">Show favorites only</span>
               </label>
 
               <label className="flex items-center">
@@ -487,9 +489,9 @@ function FeedContent() {
                   onChange={(e) =>
                     setFilters({ ...filters, showDeleted: e.target.checked })
                   }
-                  className="mr-2"
+                  className="mr-2 h-4 w-4"
                 />
-                <span className="text-sm">Show deleted highlights</span>
+                <span className="text-xs md:text-sm">Show deleted highlights</span>
               </label>
 
               <label className="flex items-center">
@@ -499,9 +501,9 @@ function FeedContent() {
                   onChange={(e) =>
                     setFilters({ ...filters, randomize: e.target.checked })
                   }
-                  className="mr-2"
+                  className="mr-2 h-4 w-4"
                 />
-                <span className="text-sm">Randomize order (mix books)</span>
+                <span className="text-xs md:text-sm">Randomize order (mix books)</span>
               </label>
 
               <label className="flex items-center">
@@ -511,9 +513,9 @@ function FeedContent() {
                   onChange={(e) =>
                     setFilters({ ...filters, showSampleQuotes: e.target.checked })
                   }
-                  className="mr-2"
+                  className="mr-2 h-4 w-4"
                 />
-                <span className="text-sm">Show sample quotes if I have &lt; 50 highlights</span>
+                <span className="text-xs md:text-sm">Show sample quotes if I have &lt; 50 highlights</span>
               </label>
             </div>
 
@@ -522,7 +524,7 @@ function FeedContent() {
                 setShowFilters(false)
                 setCurrentIndex(0)
               }}
-              className="mt-6 w-full rounded-lg bg-gray-800 px-4 py-2 text-white hover:bg-gray-700 dark:bg-gray-100 dark:text-gray-900 dark:hover:bg-gray-200"
+              className="mt-4 w-full rounded-lg bg-gray-800 px-4 py-2.5 text-sm font-medium text-white hover:bg-gray-700 active:bg-gray-600 dark:bg-gray-100 dark:text-gray-900 dark:hover:bg-gray-200 md:mt-6 md:text-base"
             >
               Apply Filters
             </button>

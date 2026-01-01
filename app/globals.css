@@ -35,6 +35,24 @@ body {
   .text-balance {
     text-wrap: balance;
   }
+  
+  /* Better mobile touch targets */
+  .touch-target {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  /* Smooth scrolling for long content */
+  .scroll-smooth {
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  /* Prevent text selection during swipe */
+  .no-select {
+    -webkit-user-select: none;
+    user-select: none;
+  }
 }
 
 /* Scrollbar styling */
