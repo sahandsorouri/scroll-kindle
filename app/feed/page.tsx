@@ -22,6 +22,7 @@ function FeedContent() {
     showDeleted: false,
     bookId: bookIdParam ? parseInt(bookIdParam, 10) : undefined,
     randomize: true, // Enable randomization by default
+    showSampleQuotes: false, // Disable sample quotes by default - ONLY show user's own highlights
   })
   const [isLoading, setIsLoading] = useState(true)
   const [showSettings, setShowSettings] = useState(false)
@@ -48,14 +49,41 @@ function FeedContent() {
           return
         }
 
-        // Add sample highlights if user has few highlights
-        const addSamples = loadedHighlights.length < 50 && !isDemo
-        console.log(`📊 Your highlights: ${loadedHighlights.length}`)
-        console.log(`📚 Adding samples: ${addSamples}`)
+        // Add sample highlights ONLY if explicitly enabled in filters AND user has few highlights
+        const addSamples = filters.showSampleQuotes && loadedHighlights.length < 50 && !isDemo
+        console.log(`\n=== FEED DATA LOADED ===`)
+        console.log(`📊 Total highlights from DB: ${loadedHighlights.length}`)
+        console.log(`📚 Total books from DB: ${loadedBooks.length}`)
+        console.log(`📚 Sample quotes enabled: ${filters.showSampleQuotes}`)
+        console.log(`📚 Will add samples: ${addSamples}`)
+        
+        // Group highlights by book for debugging
+        const byBook = loadedHighlights.reduce((acc, h) => {
+          const book = loadedBooks.find(b => b.user_book_id === h.user_book_id)
+          const bookTitle = book?.title || `Unknown Book (ID: ${h.user_book_id})`
+          acc[bookTitle] = (acc[bookTitle] || 0) + 1
+          return acc
+        }, {} as Record<string, number>)
+        console.log('📖 YOUR highlights by book:')
+        Object.entries(byBook).forEach(([book, count]) => {
+          console.log(`   - ${book}: ${count} highlights`)
+        })
+        
+        // Show books without highlights
+        const booksWithoutHighlights = loadedBooks.filter(b => 
+          !loadedHighlights.some(h => h.user_book_id === b.user_book_id)
+        )
+        if (booksWithoutHighlights.length > 0) {
+          console.warn(`⚠️ Books in DB but NO highlights found (${booksWithoutHighlights.length}):`)
+          booksWithoutHighlights.forEach(b => {
+            console.warn(`   - "${b.title}" (ID: ${b.user_book_id}) - claims ${b.num_highlights} highlights`)
+          })
+        }
+        
         const sorted = getSortedHighlights(loadedHighlights, filters, addSamples)
         const userHighlights = sorted.filter(h => h.id > 0).length
         const sampleHighlights = sorted.filter(h => h.id < 0).length
-        console.log(`✅ Final feed - Your highlights: ${userHighlights}, Samples: ${sampleHighlights}, Total: ${sorted.length}`)
+        console.log(`✅ Final feed - YOUR highlights: ${userHighlights}, Sample quotes: ${sampleHighlights}, Total: ${sorted.length}`)
         setHighlights(sorted)
         setIsLoading(false)
       } catch (error) {
@@ -189,7 +217,7 @@ function FeedContent() {
       await toggleFavorite(currentHighlight.id)
       // Reload highlights
       const loadedHighlights = await getAllHighlights()
-      const addSamples = loadedHighlights.length < 50 && !isDemo
+      const addSamples = filters.showSampleQuotes && loadedHighlights.length < 50 && !isDemo
       const sorted = getSortedHighlights(loadedHighlights, filters, addSamples)
       setHighlights(sorted)
     }
@@ -265,7 +293,20 @@ function FeedContent() {
       {/* Main highlight card */}
       <div className="flex h-full flex-col items-center justify-center p-6 md:p-12">
         <div className="w-full max-w-3xl">
-          {currentBook?.cover_image_url && (
+          {/* Clear badge indicating source */}
+          <div className="mb-4 flex justify-center">
+            {isSampleHighlight(currentHighlight) ? (
+              <span className="rounded-full bg-blue-500 px-4 py-2 text-xs font-bold text-white">
+                📚 SAMPLE QUOTE (Not your highlight)
+              </span>
+            ) : (
+              <span className="rounded-full bg-green-500 px-4 py-2 text-xs font-bold text-white">
+                ✨ YOUR HIGHLIGHT
+              </span>
+            )}
+          </div>
+
+          {currentBook?.cover_image_url && !isSampleHighlight(currentHighlight) && (
             // eslint-disable-next-line @next/next/no-img-element
             <img
               src={currentBook.cover_image_url}
@@ -280,15 +321,17 @@ function FeedContent() {
 
           {currentHighlight.note && (
             <div className={`mb-6 rounded-lg p-4 text-sm ${isSampleHighlight(currentHighlight) ? 'bg-blue-100 dark:bg-blue-900/30' : 'bg-yellow-100 dark:bg-yellow-900/30'}`}>
-              <p className="font-semibold">{isSampleHighlight(currentHighlight) ? '📚 Sample Quote:' : 'Note:'}</p>
+              <p className="font-semibold">{isSampleHighlight(currentHighlight) ? '📚 Sample Quote Info:' : '📝 Your Note:'}</p>
               <p>{currentHighlight.note}</p>
             </div>
           )}
 
           <div className="flex flex-wrap items-center gap-4 text-sm text-gray-600 dark:text-gray-400">
             <p className="font-semibold">
-              {currentBook?.title}
-              {currentBook?.author && ` by ${currentBook.author}`}
+              {isSampleHighlight(currentHighlight) 
+                ? currentHighlight.note?.match(/from "(.*?)" by (.*?)\./)?.[1] || 'Sample Quote'
+                : (currentBook?.title || 'Unknown Book')}
+              {!isSampleHighlight(currentHighlight) && currentBook?.author && ` by ${currentBook.author}`}
             </p>
             {currentHighlight.tags.length > 0 && (
               <div className="flex flex-wrap gap-2">
@@ -459,6 +502,18 @@ function FeedContent() {
                   className="mr-2"
                 />
                 <span className="text-sm">Randomize order (mix books)</span>
+              </label>
+
+              <label className="flex items-center">
+                <input
+                  type="checkbox"
+                  checked={filters.showSampleQuotes ?? false}
+                  onChange={(e) =>
+                    setFilters({ ...filters, showSampleQuotes: e.target.checked })
+                  }
+                  className="mr-2"
+                />
+                <span className="text-sm">Show sample quotes if I have &lt; 50 highlights</span>
               </label>
             </div>
 

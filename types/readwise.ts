@@ -103,5 +103,6 @@ export interface FilterOptions {
   showDeleted?: boolean
   showFavoritesOnly?: boolean
   randomize?: boolean
+  showSampleQuotes?: boolean
 }
 

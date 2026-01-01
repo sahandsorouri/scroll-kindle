@@ -33,6 +33,9 @@ export default function BooksPage() {
   }, [])
 
   const filteredBooks = books.filter((book) => {
+    // Only show books that have at least 1 highlight
+    const hasHighlights = book.num_highlights > 0
+
     const matchesSearch =
       !searchQuery ||
       book.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -40,7 +43,7 @@ export default function BooksPage() {
 
     const matchesCategory = !categoryFilter || book.category === categoryFilter
 
-    return matchesSearch && matchesCategory
+    return hasHighlights && matchesSearch && matchesCategory
   })
 
   const categories = Array.from(new Set(books.map((b) => b.category))).sort()

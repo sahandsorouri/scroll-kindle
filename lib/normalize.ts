@@ -63,13 +63,20 @@ export function normalizeExportResults(
   const highlights: Highlight[] = []
 
   for (const bookResult of response.results) {
-    books.push(normalizeBook(bookResult))
+    // Check if book actually has highlights
+    const hasHighlights = bookResult.highlights && 
+                         Array.isArray(bookResult.highlights) && 
+                         bookResult.highlights.length > 0
 
-    // Protect against missing highlights array
-    if (bookResult.highlights && Array.isArray(bookResult.highlights)) {
-      for (const highlight of bookResult.highlights) {
+    // ONLY save books that have highlights
+    if (hasHighlights) {
+      books.push(normalizeBook(bookResult))
+
+      for (const highlight of bookResult.highlights!) {
         highlights.push(normalizeHighlight(highlight, bookResult.user_book_id))
       }
+    } else {
+      console.log(`⚠️ Skipping book "${bookResult.title}" - no highlights found`)
     }
   }
 
