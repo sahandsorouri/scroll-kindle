@@ -1,0 +1,88 @@
+{
+  "count": 15,
+  "nextPageCursor": "page2cursor",
+  "results": [
+    {
+      "user_book_id": 1,
+      "title": "Atomic Habits",
+      "author": "James Clear",
+      "category": "books",
+      "source": "kindle",
+      "num_highlights": 5,
+      "last_highlight_at": "2024-12-15T10:30:00Z",
+      "updated": "2024-12-15T10:30:00Z",
+      "cover_image_url": "https://example.com/cover1.jpg",
+      "highlights_url": "https://readwise.io/bookreview/1",
+      "tags": [{ "name": "self-help" }, { "name": "productivity" }],
+      "readwise_url": "https://readwise.io/bookreview/1",
+      "highlights": [
+        {
+          "id": 1,
+          "text": "You do not rise to the level of your goals. You fall to the level of your systems.",
+          "note": "Core concept",
+          "location": 45,
+          "location_type": "page",
+          "highlighted_at": "2024-12-15T10:30:00Z",
+          "updated": "2024-12-15T10:30:00Z",
+          "book_id": 1,
+          "tags": [{ "name": "systems" }],
+          "is_favorite": false,
+          "is_discard": false
+        },
+        {
+          "id": 2,
+          "text": "Habits are the compound interest of self-improvement.",
+          "location": 23,
+          "location_type": "page",
+          "highlighted_at": "2024-12-15T10:25:00Z",
+          "updated": "2024-12-15T10:25:00Z",
+          "book_id": 1,
+          "tags": [],
+          "is_favorite": false,
+          "is_discard": false
+        }
+      ]
+    },
+    {
+      "user_book_id": 2,
+      "title": "Deep Work",
+      "author": "Cal Newport",
+      "category": "books",
+      "source": "kindle",
+      "num_highlights": 3,
+      "last_highlight_at": "2024-12-10T14:20:00Z",
+      "updated": "2024-12-10T14:20:00Z",
+      "cover_image_url": "https://example.com/cover2.jpg",
+      "highlights_url": "https://readwise.io/bookreview/2",
+      "tags": [{ "name": "productivity" }],
+      "readwise_url": "https://readwise.io/bookreview/2",
+      "highlights": [
+        {
+          "id": 3,
+          "text": "Deep work is the ability to focus without distraction.",
+          "location": 12,
+          "location_type": "page",
+          "highlighted_at": "2024-12-10T14:20:00Z",
+          "updated": "2024-12-10T14:20:00Z",
+          "book_id": 2,
+          "tags": [],
+          "is_favorite": false,
+          "is_discard": false
+        },
+        {
+          "id": 4,
+          "text": "Deleted highlight for testing",
+          "location": 30,
+          "location_type": "page",
+          "highlighted_at": "2024-12-09T10:00:00Z",
+          "updated": "2024-12-09T10:00:00Z",
+          "book_id": 2,
+          "tags": [],
+          "is_favorite": false,
+          "is_discard": true
+        }
+      ]
+    }
+  ]
+}
+

@@ -1,0 +1,35 @@
+{
+  "count": 10,
+  "nextPageCursor": null,
+  "results": [
+    {
+      "user_book_id": 3,
+      "title": "The Almanack of Naval Ravikant",
+      "author": "Eric Jorgenson",
+      "category": "books",
+      "source": "kindle",
+      "num_highlights": 2,
+      "last_highlight_at": "2024-12-05T09:15:00Z",
+      "updated": "2024-12-05T09:15:00Z",
+      "cover_image_url": "https://example.com/cover3.jpg",
+      "highlights_url": "https://readwise.io/bookreview/3",
+      "tags": [{ "name": "philosophy" }],
+      "readwise_url": "https://readwise.io/bookreview/3",
+      "highlights": [
+        {
+          "id": 5,
+          "text": "Seek wealth, not money or status.",
+          "location": 34,
+          "location_type": "page",
+          "highlighted_at": "2024-12-05T09:15:00Z",
+          "updated": "2024-12-05T09:15:00Z",
+          "book_id": 3,
+          "tags": [],
+          "is_favorite": false,
+          "is_discard": false
+        }
+      ]
+    }
+  ]
+}
+
