@@ -34,10 +34,17 @@ QuoteScroll is **fully compatible** with Cloudflare Pages! The app uses:
 3. **Build Settings**
    ```
    Framework preset: Next.js
-   Build command: pnpm build
-   Build output directory: .next
+   Build command: npx @cloudflare/next-on-pages@1
+   Build output directory: .vercel/output/static
    Root directory: /
    Node version: 20
+   ```
+   
+   **Alternative (if above doesn't work):**
+   ```
+   Framework preset: None
+   Build command: pnpm build && pnpm run export
+   Build output directory: out
    ```
 
 4. **Environment Variables**
