@@ -1,6 +1,7 @@
 // Readwise Auth Validation Route
 import { NextRequest, NextResponse } from 'next/server'
 
+export const runtime = 'edge'
 export const dynamic = 'force-dynamic'
 
 const READWISE_AUTH_URL = 'https://readwise.io/api/v2/auth/'
