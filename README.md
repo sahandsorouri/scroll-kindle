@@ -201,7 +201,7 @@ The E2E tests automatically start a dev server on port 3000.
 
 ## Deployment
 
-### Deploy to Vercel
+### Deploy to Vercel (Recommended)
 
 1. Push your code to GitHub
 2. Import the project in [Vercel](https://vercel.com)
@@ -209,6 +209,21 @@ The E2E tests automatically start a dev server on port 3000.
 4. Deploy!
 
 No environment variables or server configuration needed.
+
+### Deploy to Cloudflare Pages (Also Great!)
+
+1. Push your code to GitHub
+2. Go to [Cloudflare Pages](https://pages.cloudflare.com/)
+3. Connect your repository
+4. Configure:
+   - **Framework:** Next.js
+   - **Build command:** `pnpm build`
+   - **Build output:** `.next`
+5. Deploy!
+
+**Benefits:** Unlimited bandwidth, faster global CDN, free analytics.
+
+See [DEPLOY_CLOUDFLARE.md](./DEPLOY_CLOUDFLARE.md) for detailed instructions.
 
 ### Manual Build
 
